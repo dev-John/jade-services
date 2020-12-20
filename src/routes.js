@@ -1,8 +1,8 @@
 import express from "express";
-import { Person } from "./models/index.js";
 
 import { getUfs, getCitiesByUf } from "./services/location.js";
 import {
+  getTableHead,
   createUpdatePeople,
   deletePerson,
   getPeople,
@@ -23,8 +23,15 @@ routes.post("/create-update-person", async (req, res, next) => {
   res.send(await createUpdatePeople(req, res, next));
 });
 
-routes.get("/get-people", async (req, res) => {
-  res.send(await getPeople());
+routes.get("/get-table-head/:type", async (req, res) => {
+  const { type } = req.params;
+
+  res.send(await getTableHead(type));
+});
+
+routes.get("/get-people/:page/:rowsPerPage", async (req, res) => {
+  const { page, rowsPerPage } = req.params;
+  res.send(await getPeople({ page, rowsPerPage }));
 });
 
 routes.get("/search-person/:cpfCnpj/:uf/:city", async (req, res) => {

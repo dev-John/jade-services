@@ -1,3 +1,4 @@
+import { PF_COLUMS, PJ_COLUMNS } from "../constants/table-head.js";
 import { Person } from "../models/index.js";
 import { ErrorHandler } from "../utils/error-handler.js";
 
@@ -28,8 +29,15 @@ export async function createUpdatePeople(req, res, next) {
   }
 }
 
-export function getPeople() {
-  return Person.find({});
+export async function getPeople({ page, rowsPerPage }) {
+  const people = await Person.find({})
+    .limit(parseInt(rowsPerPage))
+    .skip(parseInt(rowsPerPage) * parseInt(page))
+    .sort({ name: "asc" });
+
+  const totalPeople = await Person.count({});
+
+  return { people, totalPeople };
 }
 
 export function searchPerson({ cpfCnpj, city, uf }) {
@@ -40,4 +48,8 @@ export function deletePerson(_id) {
   return Person.findByIdAndDelete(_id).orFail(() => {
     throw new Error("Falha ao deletar a pessoa");
   });
+}
+
+export function getTableHead(type) {
+  return type === "pf" ? PF_COLUMS : PJ_COLUMNS;
 }
