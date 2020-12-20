@@ -1,4 +1,5 @@
 import express from "express";
+import { Person } from "./models/index.js";
 
 import { getUfs, getCitiesByUf } from "./services/location.js";
 import {
@@ -18,12 +19,8 @@ routes.get("/get-cities-uf/:uf", async (req, res) => {
   res.send(await getCitiesByUf(req.params.uf));
 });
 
-routes.post("/create-update-person", async (req, res) => {
-  const { _id, type, name, cpfCnpj, phone, city, uf } = req.body;
-
-  res.send(
-    await createUpdatePeople({ _id, type, name, cpfCnpj, phone, city, uf })
-  );
+routes.post("/create-update-person", async (req, res, next) => {
+  res.send(await createUpdatePeople(req, res, next));
 });
 
 routes.get("/get-people", async (req, res) => {

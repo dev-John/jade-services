@@ -8,10 +8,11 @@ const schema = new Schema(
   {
     type: { type: String, required: true }, // fisica / juridica
     name: { type: String, required: true },
-    cpfCnpj: { type: String, required: true },
+    cpfCnpj: { type: String, required: true, unique: true },
     phone: { type: String, required: true },
     city: { type: String, required: true },
     uf: { type: String, required: true },
+    birthDate: { type: Date, required: true },
   },
   baseSchema.options
 );

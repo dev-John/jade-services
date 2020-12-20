@@ -1,28 +1,31 @@
 import { Person } from "../models/index.js";
+import { ErrorHandler } from "../utils/error-handler.js";
 
-export function createUpdatePeople({
-  _id,
-  type,
-  name,
-  cpfCnpj,
-  phone,
-  city,
-  uf,
-}) {
-  if (_id) {
-    return Person.findByIdAndUpdate(_id, {
-      type,
-      name,
-      cpfCnpj,
-      phone,
-      city,
-      uf,
-    }).orFail(() => {
-      throw new Error("Falha ao atualizar a pessoa");
-    });
+export async function createUpdatePeople(req, res, next) {
+  const { _id, type, name, cpfCnpj, phone, city, uf, birthDate } = req.body;
+
+  try {
+    const person = await Person.find({ cpfCnpj });
+
+    if (!_id && person.length > 0) {
+      throw new ErrorHandler(500, "Já existe um cadastro com este CPF/CNPJ!");
+    }
+
+    await (!_id
+      ? Person.create({ type, name, cpfCnpj, phone, city, uf, birthDate })
+      : Person.findByIdAndUpdate(_id, {
+          type,
+          name,
+          cpfCnpj,
+          phone,
+          city,
+          uf,
+        }));
+
+    next();
+  } catch (error) {
+    next(error);
   }
-
-  return Person.create({ type, name, cpfCnpj, phone, city, uf });
 }
 
 export function getPeople() {
