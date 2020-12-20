@@ -1,4 +1,8 @@
-import { PF_COLUMS, PJ_COLUMNS } from "../constants/table-head.js";
+import {
+  PF_COLUMS,
+  PJ_COLUMNS,
+  GENERAL_COLUMNS,
+} from "../constants/table-head.js";
 import { Person } from "../models/index.js";
 import { ErrorHandler } from "../utils/error-handler.js";
 
@@ -51,5 +55,13 @@ export function deletePerson(_id) {
 }
 
 export function getTableHead(type) {
-  return type === "pf" ? PF_COLUMS : PJ_COLUMNS;
+  switch (type) {
+    case "pf":
+      return PF_COLUMS;
+      break;
+    case "pj":
+      return PJ_COLUMNS;
+    default:
+      return GENERAL_COLUMNS;
+  }
 }
