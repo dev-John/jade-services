@@ -11,6 +11,7 @@ const schema = new Schema(
     cpfCnpj: { type: String, required: true },
     phone: { type: String, required: true },
     city: { type: String, required: true },
+    uf: { type: String, required: true },
   },
   baseSchema.options
 );
