@@ -2,6 +2,7 @@ import {
   PF_COLUMS,
   PJ_COLUMNS,
   GENERAL_COLUMNS,
+  SEARCH_TABLE_COLUMNS,
 } from "../constants/table-head.js";
 import { Person } from "../models/index.js";
 import { ErrorHandler } from "../utils/error-handler.js";
@@ -64,4 +65,8 @@ export function getTableHead(type) {
     default:
       return GENERAL_COLUMNS;
   }
+}
+
+export function getSearchTableHead() {
+  return SEARCH_TABLE_COLUMNS;
 }

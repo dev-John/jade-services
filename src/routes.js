@@ -3,6 +3,7 @@ import express from "express";
 import { getUfs, getCitiesByUf } from "./services/location.js";
 import {
   getTableHead,
+  getSearchTableHead,
   createUpdatePeople,
   deletePerson,
   getPeople,
@@ -23,10 +24,14 @@ routes.post("/create-update-person", async (req, res, next) => {
   res.send(await createUpdatePeople(req, res, next));
 });
 
-routes.get("/get-table-head/:type", async (req, res) => {
+routes.get("/get-table-head/:type", (req, res) => {
   const { type } = req.params;
 
-  res.send(await getTableHead(type));
+  res.send(getTableHead(type));
+});
+
+routes.get("/get-search-table-head", (req, res) => {
+  res.send(getSearchTableHead());
 });
 
 routes.get("/get-people/:page/:rowsPerPage", async (req, res) => {
