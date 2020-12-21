@@ -6,7 +6,11 @@
   "type": "module",
   "scripts": {
     "start": "nodemon src/index.js",
-    "test": "npm test"
+    "lint": "eslint --ext .js .",
+    "lint:show:config": "eslint --print-config *.js",
+    "lint:fix": "npm run lint -- --fix",
+    "test": "c8 ava",
+    "test:watch": "c8 ava --watch"
   },
   "keywords": [
     "Micro-services",
@@ -16,6 +20,8 @@
   "license": "ISC",
   "dependencies": {
     "@hapi/hapi": "^20.0.3",
+    "ava": "^3.14.0",
+    "c8": "^7.3.5",
     "cors": "^2.8.5",
     "dotenv": "^8.2.0",
     "express": "^4.17.1",
